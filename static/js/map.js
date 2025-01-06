@@ -50,36 +50,59 @@ function addMap() {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // Собираем данные из формы
-        const formData = new FormData(form);
-        const jsonData = {};
-
-        formData.forEach((value, key) => {
-            jsonData[key] = value;
-        });
-
         // Добавляем координаты в данные
-        jsonData['latitude'] = listcoord.latitude;
-        jsonData['longitude'] = listcoord.longitude;
+        // jsonData['latitude'] = listcoord.latitude;
+        // jsonData['longitude'] = listcoord.longitude;
 
-        // Отправляем данные в формате JSON на сервер
-        $.ajax({
-            url: "/api/addevent",
-            method: "POST",
-            data: JSON.stringify(jsonData),
-            contentType: "application/json;charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-              if (data.status === "success") {
-                $("#message").html(data.message);
-              } else {
-                $("#message").html(`Ошибка: ${data.message}`);
-              }
-            },
-            error: function (xhr, status, error) {
-              console.error("Error: ", xhr, status, error);
-            },
+        $(document).ready(function() {
+            $('#sendevent').off('submit');
+            $('#sendevent').on('submit', function(event) {
+
+                event.preventDefault();  // Отменяем стандартную отправку формы
+
+                var formData = new FormData();  // Используем FormData вместо обычного объекта
+        
+                // Получаем значения полей и добавляем их в FormData
+                formData.append('latitude', $('input[name="latitude"]').val());
+                formData.append('longitude', $('input[name="longitude"]').val());
+                formData.append('description', $('textarea[name="description"]').val());
+                formData.append('short', $('input[name="short"]').val());
+                formData.append('story', $('textarea[name="story"]').val());
+                formData.append('privates', $('input[name="privates"]').val());
+        
+                // Получаем файл изображения
+                var imgFile = $('input[name="img"]')[0].files[0];
+                if (imgFile) {
+                    formData.append('img', imgFile);
+                }
+                
+                // Выводим содержимое formData в консоль
+                for (var pair of formData.entries()) {
+                    console.log(pair[0] + ': ' + pair[1]);
+                }
+
+                // Отправляем данные на сервер с помощью AJAX
+                $.ajax({
+                    url: '/api/addevent',  // Путь на сервере, который будет обрабатывать данные
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,  // Чтобы jQuery не устанавливала contentType автоматически
+                    processData: false,  // Чтобы jQuery не пыталась преобразовать данные
+                    success: function(response) {
+                        $('#message').html('<p>Форма успешно отправлена!</p>');
+                        
+                        // // Очищаем данные в formData после успешной отправки
+                        // formData.forEach(function(value, key) {
+                        //     formData.delete(key);  // Удаляем каждый ключ-значение из FormData
+                        // });
+                    },
+                    error: function(xhr, status, error) {
+                        $('#message').html('<p>Ошибка: ' + error + '</p>');
+                  }
+              });
           });
+      });
+
     });
 
     // Добавляем карту с OpenStreetMap

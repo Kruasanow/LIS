@@ -6,6 +6,7 @@ from models import db, Events, Users
 from flask_restful import Api, Resource
 # from f import is_valid_email, is_valid_name
 from datetime import datetime
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
@@ -25,6 +26,7 @@ migrate = Migrate(app, db)
 
 api = Api(app)
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -37,40 +39,28 @@ def map():
 def create():
     return render_template('create.html')
 
-# @app.route('/api/addevent', methods=['POST'])
-# def add_event():
+# app.route('/api/addevent')
+# def addevent():
 #     if request.method == 'POST':
+#         data = request.get_json()
+#         print(data)
 #         try:
-#             data = request.get_json(force=True)
-#             print(f'Received data: {data}')
-            
-#             for key in data:
-#                 print(f"data - {data[key]}")
-#                 data[key] = str(data[key]).encode('utf-8')
-
 #             event = Events(
-#                 locations=data['location'],
-#                 coordinates_latitude=data['latitude'],
-#                 coordinates_longitude=data['longitude'],
-#                 img_ways=data['img'],
-#                 descriptions=data['description'],
-#                 short_description=data['short'],
-#                 story=data['story'],
-#                 privates=data['privates'],
-#                 email=data['email']
-#             )
-#             db.session.close()
+#                 location= 'location',
+#                 latitude = data.get('latitude'),
+#                 longitude = data.get('longitude'),
+#                 img_ways = data.get('img'),
+#                 description = data.get('description'),
+#                 short_description = data.get('short'),
+#                 story = data.get('story'),
+#                 permission= data.get('privates')
+#                 )
 #             db.session.add(event)
 #             db.session.commit()
-            
-#             print('Data inserted')
-#             return jsonify({"status": "success", "message": "Данные успешно получены."})
-
+#             return make_response(jsonify({'message':"good"}),200)
 #         except Exception as e:
-#             print(f'Trouble with {e}')
-#             return jsonify({"status": "error", "message": str(e)}), 400
+#             return make_response(jsonify({'message':f'error - {e}'}),400)
 
-        
 class Login(Resource):
     def post(self):
         data = request.get_json()
@@ -88,23 +78,44 @@ class Login(Resource):
     
 class AddMemoryPlace(Resource):
     def post(self):
-        data = request.get_json()  
         try:
+            # Получаем данные из формы
+            latitude = request.form.get('latitude')
+            longitude = request.form.get('longitude')
+            description = request.form.get('description')
+            short_description = request.form.get('short')
+            story = request.form.get('story')
+            permission = request.form.get('privates')
+
+            # Получаем файл изображения
+            img_file = request.files.get('img')
+
+            # Если файл существует, сохраняем его
+            if img_file:
+                # Определяем безопасное имя файла
+                img_filename = secure_filename(img_file.filename)
+                img_file.save(f'./{img_filename}')  # Сохранить в нужную директорию
+
+            # Создаем событие с данными из формы
             event = Events(
-                location = data.get('location'),
-                latitude = data.get('latitude'),
-                longitude = data.get('longitude'),
-                img_ways = data.get('img'),
-                description = data.get('description'),
-                short_description = data.get('short'),
-                story = data.get('story'),
-                permission= data.get('privates'),
-                )
+                location='location',  # Для этого примера не используется, укажите как нужно
+                latitude=latitude,
+                longitude=longitude,
+                img_ways=img_filename if img_file else None,
+                description=description,
+                short_description=short_description,
+                story=story,
+                permission=permission
+            )
+
+            # Добавляем в базу данных
             db.session.add(event)
             db.session.commit()
-            return make_response(jsonify({'message':1}),200)
+
+            return make_response(jsonify({'message': 'Success'}), 200)
+
         except Exception as e:
-                return make_response(jsonify({'message':f'error - {e}'}),400)
+            return make_response(jsonify({'message': f'Error - {str(e)}'}), 400)
 
 class DelEvent(Resource):
     def delete(self):
@@ -143,4 +154,4 @@ api.add_resource(DelEvent, '/api/delevent')
 api.add_resource(ChangeEvent, '/api/changeevent')
 
 if __name__=='__main__':
-    app.run(host='0.0.0.0', port='5050', debug=True)
+    app.run(host='0.0.0.0', port='5050')
