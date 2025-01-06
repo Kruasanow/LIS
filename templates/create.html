@@ -19,19 +19,19 @@
             <input type="text" name="location" /><br /><br /> -->
 
             <label for="latitude">Latitude:</label><br />
-            <input id="latitude" type="text" name="latitude" readonly /><br /><br />
+            <input id="latitude" type="text" name="latitude" required/><br /><br />
 
             <label for="longitude">Longitude:</label><br />
-            <input type="text" name="longitude" readonly /><br /><br />
+            <input type="text" name="longitude" required/><br /><br />
 
             <label for="img">Image:</label><br />
-            <input type="file" name="img" /><br /><br />
+            <input type="file" name="img" multiple/><br /><br />
 
             <label for="description">Название события:</label><br />
-            <textarea rows="4" cols="50" name="description"></textarea><br /><br />
+            <input type="text" name="description" placeholder="Обязательно" required><br /><br />
 
             <label for="short">Краткое описание:</label><br />
-            <input type="text" name="short" /><br /><br />
+            <textarea rows="4" cols="50" name="short" placeholder="Обязательно" required></textarea><br /><br />
 
             <label for="story">История:</label><br />
             <textarea rows="4" cols="50" name="story"></textarea><br /><br />

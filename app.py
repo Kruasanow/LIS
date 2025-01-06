@@ -39,28 +39,6 @@ def map():
 def create():
     return render_template('create.html')
 
-# app.route('/api/addevent')
-# def addevent():
-#     if request.method == 'POST':
-#         data = request.get_json()
-#         print(data)
-#         try:
-#             event = Events(
-#                 location= 'location',
-#                 latitude = data.get('latitude'),
-#                 longitude = data.get('longitude'),
-#                 img_ways = data.get('img'),
-#                 description = data.get('description'),
-#                 short_description = data.get('short'),
-#                 story = data.get('story'),
-#                 permission= data.get('privates')
-#                 )
-#             db.session.add(event)
-#             db.session.commit()
-#             return make_response(jsonify({'message':"good"}),200)
-#         except Exception as e:
-#             return make_response(jsonify({'message':f'error - {e}'}),400)
-
 class Login(Resource):
     def post(self):
         data = request.get_json()
@@ -88,20 +66,26 @@ class AddMemoryPlace(Resource):
             permission = request.form.get('privates')
 
             # Получаем файл изображения
-            img_file = request.files.get('img')
+            files = request.files.getlist('img[]')
+            filenames = []
 
             # Если файл существует, сохраняем его
-            if img_file:
-                # Определяем безопасное имя файла
-                img_filename = secure_filename(img_file.filename)
-                img_file.save(f'./{img_filename}')  # Сохранить в нужную директорию
+            for img_file in files:
+                if img_file:
+                    img_filename = secure_filename(img_file.filename)
+                    filenames.append(img_filename)
+                    try:
+                        img_file.save(f'static/upload/{description}/{img_filename}')  # Сохранить в нужную директорию
+                    except Exception as e:
+                        os.mkdir(f'static/upload/{description}')
+                        img_file.save(f'static/upload/{description}/{img_filename}')  # Сохранить в нужную директорию
 
             # Создаем событие с данными из формы
             event = Events(
                 location='location',  # Для этого примера не используется, укажите как нужно
                 latitude=latitude,
                 longitude=longitude,
-                img_ways=img_filename if img_file else None,
+                img_ways=filenames,
                 description=description,
                 short_description=short_description,
                 story=story,

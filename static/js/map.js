@@ -65,15 +65,19 @@ function addMap() {
                 // Получаем значения полей и добавляем их в FormData
                 formData.append('latitude', $('input[name="latitude"]').val());
                 formData.append('longitude', $('input[name="longitude"]').val());
-                formData.append('description', $('textarea[name="description"]').val());
-                formData.append('short', $('input[name="short"]').val());
+                formData.append('description', $('input[name="description"]').val());
+                formData.append('short', $('textarea[name="short"]').val());
                 formData.append('story', $('textarea[name="story"]').val());
                 formData.append('privates', $('input[name="privates"]').val());
-        
+                
                 // Получаем файл изображения
-                var imgFile = $('input[name="img"]')[0].files[0];
-                if (imgFile) {
-                    formData.append('img', imgFile);
+                var imgFiles = $('input[name="img"]')[0].files;
+                // Проверяем, что файлы выбраны
+                if (imgFiles.length > 0) {
+                    // Перебираем все файлы и добавляем их в formData
+                    for (var i = 0; i < imgFiles.length; i++) {
+                        formData.append('img[]', imgFiles[i]); // Добавляем каждый файл как элемент массива
+                    }
                 }
                 
                 // Выводим содержимое formData в консоль
@@ -90,11 +94,7 @@ function addMap() {
                     processData: false,  // Чтобы jQuery не пыталась преобразовать данные
                     success: function(response) {
                         $('#message').html('<p>Форма успешно отправлена!</p>');
-                        
-                        // // Очищаем данные в formData после успешной отправки
-                        // formData.forEach(function(value, key) {
-                        //     formData.delete(key);  // Удаляем каждый ключ-значение из FormData
-                        // });
+                      
                     },
                     error: function(xhr, status, error) {
                         $('#message').html('<p>Ошибка: ' + error + '</p>');

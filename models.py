@@ -35,7 +35,7 @@ class Events(db.Model):
     img_ways = db.Column(db.String(1050))
     description = db.Column(db.String(500))
     short_description = db.Column(db.String(550))
-    story = db.Column(db.String(150), nullable=False)
+    story = db.Column(db.String(30000), nullable=False)
     permission = db.Column(db.String(150), nullable=False)
     
     def __init__(self, location, latitude, longitude, img_ways, description, short_description, story, permission):
