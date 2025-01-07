@@ -1,22 +1,20 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Map with Form</title>
+{% extends "base.html" %}
+{% block title %}Create{% endblock %}
+
+{% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='leaflet/dist/leaflet.css') }}">
     <script src="{{ url_for('static', filename='leaflet/dist/leaflet.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
     <!-- Карта -->
-    <div id="map" style="width: 100%; height: 70%;"></div>
+    <div id="map" style="width: 100vw; height: 70vh;"></div>
 
     <!-- Форма -->
     <div class="form_container">
         <div id="message"></div>
         <form id="sendevent">
-            <!-- <label for="location">Location:</label><br />
-            <input type="text" name="location" /><br /><br /> -->
 
             <label for="latitude">Latitude:</label><br />
             <input id="latitude" type="text" name="latitude" required/><br /><br />
@@ -42,6 +40,10 @@
             <button type="submit">Отправить</button>
         </form>
     </div>
-</body>
-<script src="{{ url_for('static', filename='js/map.js') }}"></script>
-</html>
+{% endblock %}
+
+{% block footer %}{% endblock %} 
+    
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/devjs/map.js') }}"></script>
+{% endblock %}
