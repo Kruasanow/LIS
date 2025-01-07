@@ -80,6 +80,19 @@ class AddMemoryPlace(Resource):
                         os.mkdir(f'static/upload/{description}')
                         img_file.save(f'static/upload/{description}/{img_filename}')  # Сохранить в нужную директорию
 
+            def format_date(date):
+                date_str = str(date)
+                
+                y = date_str[:4]     
+                mo = date_str[5:7]
+                d = date_str[8:10]
+                h = date_str[11:13]
+                mi = date_str[14:16]
+                s = date_str[17:19]
+                
+                out_date = f"{h}:{mi}:{s} {d}.{mo}.{y}"
+                return out_date
+
             # Создаем событие с данными из формы
             event = Events(
                 location='location',  # Для этого примера не используется, укажите как нужно
@@ -89,7 +102,8 @@ class AddMemoryPlace(Resource):
                 description=description,
                 short_description=short_description,
                 story=story,
-                permission=permission
+                permission=permission,
+                date=format_date(datetime.now())
             )
 
             # Добавляем в базу данных
@@ -132,6 +146,27 @@ class ChangeEvent(Resource):
         except Exception as e:
             return make_response(jsonify({'message':f'error - {e}'}))
          
+class GetEvents(Resource):
+    def get(self):
+        last_events = Events.query.with_entities(Events.description, 
+                                                 Events.short_description, 
+                                                 Events.img_ways,
+                                                 Events.date
+                                                 ).order_by(Events.id.desc()).limit(15).all()
+        data = []
+        for e in last_events:
+            data.append({
+                "image_url":e[2],
+                "title":e[0],
+                "description":e[1],
+                "date":e[3]
+            })
+
+        return make_response(jsonify(data),200)
+
+
+
+api.add_resource(GetEvents,'/api/getevents')
 api.add_resource(Login,'/api/login')
 api.add_resource(AddMemoryPlace,'/api/addevent')
 api.add_resource(DelEvent, '/api/delevent')

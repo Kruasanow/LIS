@@ -13,8 +13,9 @@ class Users(db.Model):
     passwd = db.Column(db.String(150), nullable=False)
     tg = db.Column(db.String(150), unique=True)
     permission = db.Column(db.String(100), nullable=False)
+    date = db.Column(db.String(30), nullable=False)
 
-    def __init__(self, username, fname, sname, email, passwd, tg, permission):
+    def __init__(self, username, fname, sname, email, passwd, tg, permission, date):
         self.username = username
         self.fname = fname
         self.sname = sname
@@ -22,6 +23,7 @@ class Users(db.Model):
         self.passwd = passwd
         self.tg = tg
         self.permission = permission
+        self.date = date
     def __repr__(self):
         return f"<Events {self.username}>"
 
@@ -37,8 +39,9 @@ class Events(db.Model):
     short_description = db.Column(db.String(550))
     story = db.Column(db.String(30000), nullable=False)
     permission = db.Column(db.String(150), nullable=False)
-    
-    def __init__(self, location, latitude, longitude, img_ways, description, short_description, story, permission):
+    date = db.Column(db.String(30), nullable=False)
+
+    def __init__(self, location, latitude, longitude, img_ways, description, short_description, story, permission, date):
         self.location = location
         self.latitude = latitude
         self.longitude = longitude
@@ -47,5 +50,6 @@ class Events(db.Model):
         self.short_description = short_description
         self.story = story
         self.permission = permission
+        self.date = date
     def __repr__(self):
         return f"<Events {self.description}>"
