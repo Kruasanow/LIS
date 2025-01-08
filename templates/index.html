@@ -3,11 +3,13 @@
     
 {% block head %}{% endblock %}
 
-{% block navbar %}{% endblock %}
+{% block navbar %}{{ super() }}{% endblock %}
     
 {% block content %}
-  <section class="Carousel" id="carousel" tabindex="-1">
-  </section>
+{% include 'insertation/carousel_slider.html' %}
+{% include 'insertation/carousel_bubbles.html' %}
+  <!-- <section class="Carousel" id="carousel" tabindex="-1">
+  </section> -->
 {% endblock %}
 
 {% block footer %}{% endblock %} 

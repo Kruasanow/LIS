@@ -13,11 +13,31 @@
       type="text/css"
       media="all"
     />
+    <link
+      href="{{url_for('static', filename='css/foreigncss/navbar.css') }}"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    />
+    <link
+      href="{{url_for('static', filename='css/foreigncss/carousel_bubbles.css') }}"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    />
+    <link
+      href="{{url_for('static', filename='css/foreigncss/carousel_slider.css') }}"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    />
     {% block head %}{% endblock %}
   </head>
 
   <body>
-    {% block navbar %}{% endblock %}
+    {% block navbar %}
+        {% include 'insertation/navbar.html' %}
+    {% endblock %}
     
     {% block content %}{% endblock %}
     
@@ -29,5 +49,8 @@
     <script src="{{url_for('static', filename='js/foreignjs/jquery.mobilemenu.js') }}"></script>
     <script src="{{url_for('static', filename='js/foreignjs/jquery.placeholder.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/devjs/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/foreignjs/navbar.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/foreignjs/carousel_bubbles.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/foreignjs/carousel_slider.js') }}"></script>
   </body>
 </html>
