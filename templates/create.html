@@ -44,7 +44,7 @@
     </div>
 {% endblock %}
 
-{% block footer %}{% endblock %} 
+{% block footer %}{{ super() }}{% endblock %} 
     
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/devjs/map.js') }}"></script>
