@@ -1,3 +1,18 @@
 body {
   background-color: #b7abb7;
 }
+
+.form_container {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  margin: 5% 30%;
+  background-color: #766d76;
+  border-radius: 10px;
+  padding: 30px;
+}
+
+#map {
+  border-radius: 20px;
+  margin: 3% 3%;
+  margin-right: 3%;
+}
