@@ -5,14 +5,62 @@ body {
 .form_container {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1rem;
-  margin: 5% 30%;
+  margin: 5% 20%;
   background-color: #766d76;
   border-radius: 10px;
   padding: 30px;
+  box-sizing: border-box /* Включаем padding в расчет ширины */
 }
 
 #map {
   border-radius: 20px;
   margin: 3% 3%;
   margin-right: 3%;
+}
+
+/* Контейнеры для каждого блока формы */
+.coordinates-create-form,
+.name-img-privates-create-form,
+.short-story-create-form {
+  display: flex;
+  justify-content: space-between; /* Располагаем элементы по ширине */
+  gap: 15px; /* Промежуток между элементами */
+  width: 100%;
+  margin-bottom: 15px; /* Промежуток между строками */
+}
+
+/* Настройки для инпутов */
+.coordinates-create-form input,
+.name-img-privates-create-form input,
+.short-story-create-form textarea {
+  width: 48%; /* Оставляем место для 2 инпутов на строку */
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 5%;
+}
+
+.short-story-create-form textarea {
+  width: 100%; /* Краткое описание занимает всю ширину */
+  height: 100px;
+  border-radius: 5%;
+}
+
+/* Разделение для блока с 3 инпутами */
+.name-img-privates-create-form input {
+  width: 32%; /* Для 3 инпутов ширина будет 32%, чтобы они поместились на строку */
+}
+
+/* Кнопка */
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #555;
 }

@@ -11,33 +11,38 @@
 
 {% block content %}
     <!-- Карта -->
-    <div id="map" style="width: 100vw; height: 70vh;"></div>
+    <div id="map" style="height: 70vh;"></div>
 
     <!-- Форма -->
     <div class="form_container">
         <div id="message"></div>
         <form id="sendevent">
+            <div class="coordinates-create-form">
+                <!-- <label for="latitude">Latitude:</label><br /> -->
+                <input id="latitude" type="text" name="latitude" required placeholder="Выбери точку"/><br /><br />
 
-            <label for="latitude">Latitude:</label><br />
-            <input id="latitude" type="text" name="latitude" required/><br /><br />
+                <!-- <label for="longitude">Longitude:</label><br /> -->
+                <input type="text" name="longitude" required placeholder="на карте"/><br /><br />
+            </div>
 
-            <label for="longitude">Longitude:</label><br />
-            <input type="text" name="longitude" required/><br /><br />
+            <div class="name-img-privates-create-form">
+                <!-- <label for="description">Название события:</label><br /> -->
+                <input type="text" name="description" placeholder="Название события*" required><br /><br />
 
-            <label for="img">Image:</label><br />
-            <input type="file" name="img" multiple/><br /><br />
+                <!-- <label for="img">Image:</label><br /> -->
+                <input type="file" name="img" multiple placeholder="Фотографии"/><br /><br />
 
-            <label for="description">Название события:</label><br />
-            <input type="text" name="description" placeholder="Обязательно" required><br /><br />
+                <!-- <label for="privates">Разрешения:</label><br /> -->
+                <input type="text" name="privates" placeholder="Разрешения"/><br /><br />
+            </div>
 
-            <label for="short">Краткое описание:</label><br />
-            <textarea rows="4" cols="50" name="short" placeholder="Обязательно" required></textarea><br /><br />
+            <div class="short-story-create-form">
+                <!-- <label for="short">Краткое описание:</label><br /> -->
+                <textarea rows="4" cols="50" name="short" placeholder="Краткое описание события*" required></textarea><br /><br />
 
-            <label for="story">История:</label><br />
-            <textarea rows="4" cols="50" name="story"></textarea><br /><br />
-
-            <label for="privates">Разрешения:</label><br />
-            <input type="text" name="privates" /><br /><br />
+                <!-- <label for="story">История:</label><br /> -->
+                <textarea rows="4" cols="50" name="story" placeholder="Полная история"></textarea><br /><br />
+            </div>
 
             <button type="submit">Отправить</button>
         </form>

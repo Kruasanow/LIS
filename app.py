@@ -156,7 +156,7 @@ class GetEvents(Resource):
         data = []
         for e in last_events:
             data.append({
-                "image_url":e[2],
+                "image_url":e[2].replace('{','').replace('}',''),
                 "title":e[0],
                 "description":e[1],
                 "date":e[3]
